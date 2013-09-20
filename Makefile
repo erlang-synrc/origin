@@ -1,7 +1,7 @@
 
-ARCH=i386
-RELEASE=raring
-TAG=dev
+ARCH	?= i386
+RELEASE	?= raring
+TAG	?= dev
 
 $(RELEASE)-$(ARCH):
 	mkdir -p $@-root
