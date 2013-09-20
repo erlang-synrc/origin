@@ -8,7 +8,11 @@ RUN wget https://packages.erlang-solutions.com/erlang-solutions_1.0_all.deb
 RUN dpkg -i erlang-solutions_1.0_all.deb
 RUN rm -f erlang-solutions_1.0_all.deb
 RUN apt-get update
-RUN apt-get install -y erlang-nox build-essential npm git inotify-tools vim ssh supervisor
+RUN apt-get install -y voxoz-erlang build-essential npm git inotify-tools vim ssh supervisor tmux curl
+RUN wget -O /usr/local/bin/rebar https://github.com/rebar/rebar/wiki/rebar && chmod +x /usr/local/bin/rebar
+RUN npm install -g uglify-js
 RUN install -d /var/run/sshd
 RUN echo "root:root" | chpasswd
+RUN rm -rf /etc/update-motd.d /etc/motd && echo voxoz raring-i386-dev > /etc/motd
+RUN echo export LC_CTYPE=C.UTF-8 LC_ALL=C.UTF-8 > /etc/profile.d/voxoz-locale.sh
 ADD sshd.conf /etc/supervisor/conf.d/sshd.conf
