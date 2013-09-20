@@ -10,5 +10,20 @@ $(BR).tar.gz:
 
 otp: otp-r15 otp-r16
 
-otp-r15 otp-r16:
-	cd $(BR) && ln -sf ../$@.config .config && make
+otp-r15 otp-r16: bootstrap
+	ln -sf ../$@.config $(BR)/.config
+	$(MAKE) $@-prep
+	$(MAKE) -C $(BR)
+	cp $(BR)/output/images/rootfs.tar $@.tar
+	$(MAKE) -C $(BR) clean
+	tar rvf $@.tar -C extra .
+
+otp-r15-prep:
+
+otp-r16-prep:
+	rm -rf $(BR)/package/erlang
+	ln -sf ../../package/erlang $(BR)/package/
+
+docker-import:
+	docker import - voxoz-otp-r15 < otp-r15.tar
+	docker import - voxoz-otp-r16 < otp-r16.tar
