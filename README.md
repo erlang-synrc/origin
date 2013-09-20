@@ -1,6 +1,6 @@
 ## Voxoz Packaging
 
-For Ubuntu Raring (13.04) amd64 and i386.
+Debs for Ubuntu Raring (13.04) amd64 and i386:
 
 ```sh
 $ echo deb http://build.voxoz.in/debian raring main >> /etc/apt/sources.list
@@ -9,7 +9,16 @@ $ sudo apt-get update
 $ sudo apt-get install -y voxoz-erlang
 ```
 
-### Building erlang:
+### LXC
+
+Building Docker images:
+
+```
+make -C buildroot otp
+make raring-i386
+```
+
+### Building Erlang Debs:
 
 ```sh
 amd64 $ ./configure --disable-megaco-flex-scanner-lineno --disable-megaco-reentrant-flex-scanner --without-javac --disable-hipe --enable-m64-build && make
