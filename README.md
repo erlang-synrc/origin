@@ -14,8 +14,8 @@ $ sudo apt-get install -y voxoz-erlang
 Building Docker images:
 
 ```
-make -C buildroot otp
-make raring-i386
+$ make -C buildroot otp       # lightweight deployment images
+$ make raring-i386            # ubuntu-based development environments
 ```
 
 ### Building Erlang Debs:
