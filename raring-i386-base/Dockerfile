@@ -1,16 +1,19 @@
 FROM raring-i386-minbase
 
-RUN apt-get install -y wget ca-certificates software-properties-common
+# this forces dpkg not to call sync() after package extraction
+RUN echo "force-unsafe-io" > /etc/dpkg/dpkg.cfg.d/02apt-speedup
+
+RUN apt-get install -y wget ca-certificates software-properties-common && rm -rf /var/cache/apt/archives
 RUN echo deb http://archive.ubuntu.com/ubuntu raring universe >> /etc/apt/sources.list
 RUN echo deb http://build.voxoz.in/debian raring main >> /etc/apt/sources.list
 RUN wget -q -O - http://build.voxoz.in/key | apt-key add -
 
 RUN apt-get update
-RUN apt-get install -y git inotify-tools ssh supervisor tmux curl lsof strace
+RUN apt-get install -y inotify-tools ssh supervisor tmux curl lsof strace && rm -rf /var/cache/apt/archives
 
-RUN rm -rf /etc/update-motd.d /etc/motd && echo voxoz raring-i386 > /etc/motd
+RUN rm -rf /etc/update-motd.d /etc/motd && echo voxoz raring-i386 > /etc/motd && echo -n > /etc/legal
 RUN locale-gen en_US en_US.UTF-8
-RUN echo ulimit -n 10240 > /etc/profile.d/voxoz-files.sh
+RUN echo ulimit -n 4096 > /etc/profile.d/voxoz-files.sh
 
 # Hack for initctl
 # See: https://github.com/dotcloud/docker/issues/1024
