@@ -21,6 +21,7 @@ RUN dpkg-divert --local --rename --add /sbin/initctl
 RUN ln -s /bin/true /sbin/initctl
 
 RUN echo "root:root" | chpasswd
+RUN sed -r -i -e '/(pam_motd|pam_mail|pam_env|pam_loginuid)/s/^/#/g' /etc/pam.d/sshd
 RUN install -d /var/run/sshd
 ADD sshd.conf /etc/supervisor/conf.d/sshd.conf
 EXPOSE 22 4369 6000 6001 6002 6003 6004 6005 6006 6007 6008 6009 6010 8000 8087 8098 8099
